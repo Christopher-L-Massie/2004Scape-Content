@@ -41,6 +41,8 @@
 ^junglepotion_complete = 12
 ^biohazard_complete = 16
 ^desertrescue_complete = 30
+//EXTRA QUEST
+^helphobbles_complete = 100
 
 ^blackarmgang_questpoints = 1
 ^blackknight_questpoints = 3
@@ -93,3 +95,5 @@
 ^desertrescue_questpoints = 2
 ^itwatchtower_questpoints = 4
 ^legends_questpoints = 4
+//EXTRA QUEST
+^helphobbles_questpoints = 1
