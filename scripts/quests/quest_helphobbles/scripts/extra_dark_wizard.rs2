@@ -1,0 +1,69 @@
+[ai_queue1,extra_dark_wizard] ~npc_default_retaliate_ap;
+
+[ai_queue3,extra_dark_wizard] @ai_queue3_extra_dark_wizard;
+
+[label,ai_queue3_extra_dark_wizard]
+npc_say("You've not heard the last of me!");
+// gosub(npc_death);
+npc_setmode(none);
+if (npc_findhero = ^false) {
+    npc_del;
+    return;
+}
+
+if (npc_findhero = ^true) {
+    if (p_finduid(uid) = true) {
+        p_delay(1);
+        if (%helphobbles_progress >= ^helphobbles_wizard_killed) {
+            npc_del;
+            return;
+        }
+        npc_walk(npc_coord);
+        npc_setmode(playerface);
+        ~chatnpc("<p,angry>You're lucky I ran out of death runes!|I'm off to my brothers in the west.");
+        ~chatplayer("<p,shock>Hey wait!");
+        npc_anim(human_castteleport, 30);
+        spotanim_npc(teleport_casting, 92, 0);
+        sound_synth(teleport_all, 0, 0);
+        p_delay(2);
+        %helphobbles_progress = ^helphobbles_wizard_killed;
+        npc_del;
+        ~chatplayer("<p,neutral>I wonder what he would want with a gnomeball.|I should grab it out of that fern.");
+    }
+}
+npc_del;
+
+
+[ai_applayer2,extra_dark_wizard] ~extra_dark_wizard_fire_attack;
+[ai_opplayer2,extra_dark_wizard] ~extra_dark_wizard_fire_attack;
+
+[proc,extra_dark_wizard_fire_attack]
+if (%npc_action_delay > map_clock) {
+    npc_setmode(applayer2);
+    return;
+}
+if (~npc_check_notcombat = false) {
+    npc_setmode(null);
+    return;
+}
+if (~npc_check_notcombat_self = false) {
+    return;
+}
+
+if (stat_base(attack) <= stat(attack) & random(2) = 0) {
+    ~npc_cast_spell(^confuse, 2);
+} else {
+    ~npc_cast_spell(^fire_blast, 3);
+}
+
+npc_setmode(applayer2);
+
+[ai_timer,extra_dark_wizard]
+npc_say("That Ball belongs to me!");
+if (finduid(%npc_attacking_uid) = true) {
+    if (npc_range(coord) > 10 | coordy(coord) ! coordy(npc_coord)) {
+        npc_del;
+    }
+} else {
+    npc_del;
+}
