@@ -1,0 +1,309 @@
+[opnpc1,hobbles]
+
+switch_int(%helphobbles_progress) {
+    case 0 : 
+        ~chatnpc("<p,shifty>Oh dear! I've lost it! And with these legs I'll never get it back!");
+        @helphobbles_start;
+
+    case 50 : @helphobbles_inprogress;
+
+    case 75 : @helphobbles_inprogress;
+
+    case 100 : @helphobbles_post;
+}
+
+
+
+[label,helphobbles_start]
+def_int $option = ~p_choice4("Lost what?", 1, "What are you?", 2, "What's wrong with your legs?", 3, "Do you know where I can get some food?", 4);
+
+switch_int ($option) {
+    case 1 : @helphobbles_lost_what;
+    case 2 : @helphobbles_what_are_you;
+    case 3 : @helphobbles_what_is_wrong_with_your_legs;
+    case 4 : @helphobbles_where_to_get_food;
+}
+
+[label,helphobbles_lost_what]
+~chatnpc("<p,sad>I've lost my signed gnomeball!|Signed by the gnomeball champions!");
+@helphobbles_lost_what_paths;
+
+[label,helphobbles_what_are_you]
+~chatplayer("<p,shock>What are you?");
+~chatnpc("<p,sad>I'm a Tree Gnome!? What are you?");
+~chatplayer("<p,quiz>What do you mean?");
+~chatnpc("<p,angry>I mean the same as you mean to ask me.");
+~chatplayer("<p,quiz>What was I asking you?");
+~chatnpc("<p,quiz>I should ask you the same!");
+~chatplayer("<p,sad>I'm so confused...");
+
+[label,helphobbles_where_to_get_food]
+~chatnpc("<p,happy>Yes! Get some fresh King worms in Tree Gnome Stronghold.");
+~chatnpc("<p,happy>Here I happen to have some in my pocket! Please have one!");
+~mesbox("Hobbles grabs a large worm from his pocket and forces it into your hand, smiling all the while.");
+inv_add(inv, king_worm, 1);
+npc_anim(midget_catch, 0);
+~chatplayer("<p,shock>Yuck! You eat these?");
+~chatnpc("<p,happy>Yes of course!");
+~chatplayer("<p,angry>Disgusting.");
+
+switch_int (%helphobbles_progress) {
+    case 0 : @helphobbles_start;
+    case 50 : @helphobbles_inprogress;
+    case 75 : @helphobbles_inprogress;
+    case 100 : @helphobbles_post;
+}
+
+
+[label,helphobbles_what_is_wrong_with_your_legs]
+~chatnpc("<p,sad>I'm cripple! They were broken in a gnomeball accident many years ago. Then I was banished from Tree Gnome Stronghold.");
+~chatplayer("<p,shock>You were banished from Tree Gnome Stronghold because of a gnomeball accident?");
+~chatnpc("<p,shifty>Something like that.");
+
+
+[label,helphobbles_lost_what_paths]
+def_int $option = ~p_choice4("What's gnomeball?", 1, "That sounds valuable...", 2, "I could help you look for it.", 3, "I've heard enough of your complaining.", 4);
+
+switch_int ($option) {
+    case 1 : @helphobbles_whats_gnomeball;
+    case 2 : @helphobbles_sounds_valuable;
+    case 3 : @helphobbles_offer_to_help_hobbles;
+    case 4 : @helphobbles_enough_complaining;
+}
+
+[label,helphobbles_enough_complaining]
+~chatplayer("<p,angry>Shut your fat little mouth! I've heard enough of your complaining.");
+~chatnpc("<p,sad>Oh...");
+
+[label,helphobbles_whats_gnomeball]
+~chatnpc("<p,angry>You DON'T know what gnomeball is?");
+~chatplayer("<p,neutral>That's why I asked.");
+~chatnpc("<p,shock>I'm sorry friend, it had just never crossed my mind that anyone didn't know what gnomeball is.");
+~chatplayer("<p,neutral>Yeah, so what is it?");
+~chatnpc("<p,happy>It's the best game on RuneScape! Two teams face-off, tacklin', throwin', catchin' SCORIN'!");
+~chatnpc("<p,happy>If you are ever in Tree Gnome Village you should visit the Gnomeball Arena.");
+~chatnpc("<p,happy>You can watch professionals play and they might even let you pretend to play with them.");
+~chatplayer("<p,happy>That sounds great! I'll have to give it a go.");
+
+[label,helphobbles_sounds_valuable]
+~chatnpc("<p,shifty>It's priceless! One of a kind!");
+~chatplayer("<p,quiz>So why shouldn't I just go find it and keep it for myself?");
+~chatnpc("<p,quiz>Do you even know where to sell a priceless Signed Golden Gnomeball?");
+~chatplayer("<p,quiz>Oh now it's golden too?");
+~chatnpc("<p,angry>It's always been golden!");
+~chatnpc("<p,quiz>Are you gonna help me or not?");
+~chatplayer("<p,neutral>I don't know to tell you the truth. It depends on the reward otherwise I'll just keep the ball if I find it.");
+~chatnpc("<p,angry>You'd better bring it here!");
+~chatnpc("<p,neutral>Tell you what, I'll let you gamble gnomeballs with me for a chance at golden and silver gnomeballs how about?");
+~chatplayer("<p,happy>That sounds great but is that all?");
+~chatnpc("<p,neutral>I can also teach you what I know about Gnomeball.");
+~chatnpc("<p,quiz>What do you say?");
+@helphobbles_lost_what_paths;
+
+
+[label,helphobbles_offer_to_help_hobbles]
+~chatnpc("<p,happy>Oh would you? That would be great! Are you sure?");
+def_int $option = ~p_choice2_header("Yes.", 1, "No.", 2, "Start Helping Hobbles?");
+switch_int ($option) {
+    case 1 : 
+        @helphobbles_start_quest;
+        ~chatplayer("<p,neutral>Yes, I'll help you find the Signed Gnomeball.");
+        ~chatnpc("<p,happy>Oh happy day! Let me know if you have any questions about finding it. I'll do my best to help you.");
+        @helphobbles_inprogress_chats;
+}
+
+[label,helphobbles_start_quest]
+%helphobbles_progress = ^helphobbles_started;
+~send_quest_progress(questlist:helphobbles, %helphobbles_progress, ^helphobbles_complete);
+
+
+[label,helphobbles_inprogress]
+~chatnpc("<p,sad>Please tell me you've found my signed gnomeball..");
+
+if(inv_total(inv, signed_gnomeball) > 0) {
+    @helphobbles_completion;
+} else {
+    ~chatplayer("<p,neutral>No not yet.");
+    ~chatnpc("<p,sad>Hurry hurry!");
+    @helphobbles_inprogress_chats;
+}
+
+[label,helphobbles_inprogress_chats]
+def_int $option = ~p_choice5("Any ideas where the ball might be?", 1, "What is wrong with your leg?", 2, "What does the ball look like anyway?", 3, "Why do you look like that?", 4, "Why are you here?", 5);
+switch_int ($option) {
+    case 1 : @helphobbles_where_is_the_ball;
+    case 2 : @helphobbles_what_is_wrong_with_your_legs;
+    case 3 : @helphobbles_ball_description;
+    case 4 : @helphobbles_why_do_you_look_like_that;
+    case 5 : @helphobbles_why_are_you_here;
+}
+
+[label,helphobbles_where_is_the_ball]
+~chatplayer("<p,neutral>Any ideas where the ball might be? I'm not interested in wandering aimlessly all over RuneScape.");
+~chatnpc("<p,neutral>Yes! I'm sure that I lost it when I was leaving Varrock.");
+~chatnpc("<p,neutral>I was hobbling out of Varrock after visiting the Blue Moon Inn. Just as I was out of sight of the guards I felt a sudden weakness.");
+~chatplayer("<p,quiz>More of a weakness than usual?");
+~chatnpc("<p,neutral>Exactly!");
+~chatnpc("<p,neutral>As I was saying, I felt a sudden weakness and then to my horror I saw a man dressed in black approaching!");
+~chatnpc("<p,sad>That's when the panic set in...");
+~chatnpc("<p,sad>In my panic I threw the gnomeball as hard as my weakened arms could...");
+~chatplayer("<p,shocked>You threw your signed gnomeball?!");
+~chatnpc("<p,sad>Yes with great regret, as it was just after I threw the ball that an adventurer such as yourself saved me.");
+~chatplayer("<p,neutral>I still can't believe you threw your ball.");
+~chatnpc("<p,angry>Let's move past that, we are where we are at.");
+~chatplayer("<p,neutral>Fine, I supposed I'll go search around outside of Varrock then.");
+~chatnpc("<p,happy>Oh thank you! I know it was foolish of me, but it was the panic.");
+@helphobbles_inprogress_chats;
+
+[label,helphobbles_ball_description]
+~chatplayer("<p,quiz>What does the ball look like?");
+~chatnpc("<p,quiz>Oh let me think...");
+~mesbox("Hobbles thinks...");
+~mesbox("And thinks...");
+~mesbox("And thinks some more...");
+~mesbox("Hobbles thought for so long that you began to grow tired.");
+~chatplayer("<p,neutral>Hey Hobbles buddy, I'm getting tired...");
+~chatnpc("<p,angry>Don't interrupt me when I'm thinking!");
+~mesbox("After much more time spent thinking and tapping his chin, the thought suddenly arose to Hobbles.");
+~chatnpc("<p,happy>Ah! I've remembered!");
+~chatplayer("<p,angry>Out with it! It's been hours!");
+~chatnpc("<p,happy>It looks exactly like a gnomeball except that it's made of gold! Oh and you should see a bunch of tiny signatures on it.");
+~chatplayer("<p,angry>It took you that long to remember THAT?!");
+~chatnpc("<p,sad>Please forgive me, I'm under duress!");
+~chatplayer("<p,sad>You're right. I'm sorry...");
+@helphobbles_inprogress_chats;
+
+[label,helphobbles_why_are_you_here]
+~chatplayer("<p,quiz>Why are you here?");
+~chatnpc("<p,shifty>Why is anyone anywhere?");
+~chatplayer("<p,neutral>Well, I guess.");
+~chatnpc("<p,shifty>It would take too long and we need to find my ball.");
+~chatplayer("<p,neutral>Okay, I'll try to remember to ask again later.");
+@helphobbles_inprogress_chats;
+
+[label,helphobbles_why_do_you_look_like_that]
+~chatplayer("<p,quiz>Why do you look like that?");
+~chatnpc("<p,shifty>Like what?");
+~mesbox("You sense you should choose your next words carefully.");
+
+def_int $option = ~p_choice2("Why do you look so ugly?", 1, "Why do you look so cool?", 2);
+switch_int ($option) {
+    case 1 :
+        ~chatplayer("<p,angry>Why do you look so ugly?");
+        ~chatnpc("<p,angry>Why I never! How dare you insult me! I'll have you know I had the strongest arm in the leauge back in my day!");
+        npc_anim(midget_tackled, 0);
+        anim(human_tackled, 0);
+        ~damage_self(15);
+        mes("Hobbles makes a limp lunge at you.");
+    case 2 :
+        ~chatplayer("<p,happy>Why do you look so happy?");
+        ~chatnpc("<p,happy>Oh ho! That would be because I'm a retired gnomeballer. Used to be one of the best.");
+        ~chatnpc("<p,angry>That is before the league allowed outsiders to play with us!");
+        ~chatnpc("<p,angry>Can you imagine that? Imagine playing one of your human games when suddenly they allow giants to play.");
+        ~chatnpc("<p,angry>Without going into detail I retired shortly after.");      
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~
+// POST Helping Hobbles
+// ~~~~~~~~~~~~~~~~~~~~~
+
+[label,helphobbles_post]
+def_int $option = ~p_choice5("Can I gamble a gnomeball?", 1, "What's a gnomeball gamble?", 2, "How are you Hobbles?", 3, "Can I ask you something?", 4, "Goodbye for now.", 5);
+
+switch_int ($option) {
+    case 1 : @hobbles_can_i_gamble_a_gnomeball;
+    case 2 : @hobbles_whats_gnomeball_gamble;
+    case 3 : @hobbles_how_are_you_post;
+    case 4 : @hobbles_ask_something_post;
+    case 5 : @hobbles_goodbye_post;
+}
+
+[label,hobbles_ask_something_post]
+~chatplayer("Can I ask you something?");
+~chatnpc("Yes, anything! What is it?");
+
+def_int $option = ~p_choice5("What is wrong with your legs?", 1, "What are you?", 2, "Do you know where I can get some food?", 3, "Why do you look like that?", 4, "Can you tell me why you're here now?", 5);
+
+switch_int ($option) {
+    case 1 : @helphobbles_what_is_wrong_with_your_legs;
+    case 2 : @helphobbles_what_are_you;
+    case 3 : @helphobbles_where_to_get_food;
+    case 4 : @helphobbles_why_do_you_look_like_that;
+    case 5 : @hobbles_why_are_you_here_post;
+}
+
+[label,hobbles_why_are_you_here_post]
+~chatplayer("<p,quiz>Can you tell me why you're here now?");
+~chatnpc("<p,sad>Oh I suppose but it's a long sad story...are you sure?");
+
+~p_choice2_header("Yes I'm sure I want to know.", 1, "On second thought, I'm a bit busy.", 2, "Do you want to listen to the long story?");
+
+[label,hobbles_how_are_you_post]
+~chatplayer("<p,quiz>How are you doing Hobbles?");
+~chatnpc("<p,happy>Oh much better now that I've gotten my ball back. Thanks again <displayname>!");
+@helphobbles_post;
+
+
+[label,hobbles_goodbye_post]
+~chatplayer("<p,happy>Goodbye for now Hobbles.");
+~chatnpc("<p,happy>Goodbye, come see me again soon!");
+
+[label,hobbles_whats_gnomeball_gamble]
+~chatplayer("<p,quiz>What's a gnomeball gamble?");
+~chatnpc("<p,happy>I'm glad you asked!");
+~chatnpc("<p,happy>Gnomeball Gamble is a little game I came up with.");
+~chatnpc("<p,happy>You give me a gnomeball, then I roll a 100-sided die.");
+~chatnpc("<p,happy>If you roll 100 you will get a Golden Gnomeball. It's not signed like mine but that will give you something to do.");
+~chatnpc("<p,happy>If you roll 90 or more then you will get a Silver Gnomeball. Less Impressive.");
+~chatnpc("<p,happy>Does that make sense?");
+def_int $option = ~p_choice2_header("I think so.", 1, "No, could you explain again?", 2, "Do you understand gnomeball gamble?");
+
+switch_int ($option) {
+    case 1 : @helphobbles_post;
+    case 2 : @hobbles_whats_gnomeball_gamble;
+}
+
+
+[label,hobbles_can_i_gamble_a_gnomeball]
+~chatplayer("<p,quiz>Can I gamble a gnomeball?");
+if (inv_total(inv, ball_gnomeball_game) = 0) {
+    ~chatnpc("<p,angry>No, you don't have any gnomeballs. Don't waste my time.");
+    @helphobbles_post;
+}
+~chatnpc("<p,happy>Sure thing, just give me a gnomeball and I'll roll a dice to see if you win.");
+def_int $option = ~p_choice2_header("Yes.", 1, "No.", 2, "Gamble a gnomeball?");
+
+switch_int ($option) {
+    case 1 :
+        ~chatnpc("<p,happy>Throw it here.|Let's see if you win.");
+        anim(human_throw_gnomeball, 0);
+        def_int $duration = ~player_projectile(coord, npc_coord, uid, gnomeball_travel, 40, 40, 41, 15, 5, 11, 5);
+        sound_synth(throw, 0, 0);
+        inv_del(inv, ball_gnomeball_game, 1);
+        npc_anim(midget_catch, 0);
+        sound_synth(catch, 0, 0);
+        p_delay(1);
+        mes("Hobbles rolls the die.");
+        npc_anim(midget_chanting, 0);
+        p_delay(2);
+        def_int $roll_number = random(100);
+        ~mesbox("Hobbles rolled a <tostring($roll_number)>!");
+        if ($roll_number = 100) {
+            npc_say("<displayname> won the Golden Gnomeball!");
+            ~chatnpc("<p,shock>You've won the GOLDEN GNOMEBALL! Congratulations!");
+            inv_add(inv, golden_gnomeball, 1);
+        } else if ($roll_number >= 90) {
+            npc_say("<displayname> won the Silver Gnomeball!");
+            ~chatnpc("<p,shock>You've won the SILVER GNOMEBALL! Congratulations!");
+            inv_add(inv, silver_gnomeball, 1);
+        } else {
+            npc_say("<displayname> lost a gnomeball!");
+            ~chatnpc("<p,neutral>Too bad, no luck today. Thanks for playing.");
+            ~chatplayer("<p,sad>Dang it.");
+
+        }
+    case 2 :
+        ~chatnpc("<p,angry>Why do you always waste my time!");
+        ~chatplayer("<p,sad>I don't know why I'm this way.");
+}

@@ -1,0 +1,57 @@
+[oploc1,suspicious_gnomeball_fern]
+
+switch_int (%helphobbles_progress) {
+    case ^helphobbles_not_started :
+        ~mesbox("You don't find anything.");
+    case ^helphobbles_started :
+        npc_findallany(^helphobbles_wizard_spawn_coord, 10, 0);
+        while (npc_findnext = true) {
+            if (npc_type = extra_dark_wizard & %npc_attacking_uid = uid) {
+                ~mesbox("You're under attack! Look out!");
+                return;
+            }
+        }
+        ~mesbox("As you search the bush a nearby Dark Wizard approaches.");
+        npc_add(^helphobbles_wizard_spawn_coord, extra_dark_wizard, 600);
+        npc_setmode(none);
+        %npc_attacking_uid = uid;
+        npc_say("Stop right there! I'll be having that.");
+        npc_walk(^helphobbles_wizard_walk_coord);
+        p_delay(6);
+        npc_setmode(playerface);
+        ~chatplayer("<p,shock>What on Gielinor would you want with this gnomeball?");
+        ~chatnpc("<p,angry>That's no concern of yours!");
+        npc_sethuntmode(aggressive_melee_extra);
+        npc_sethunt(5);
+    case ^helphobbles_wizard_killed :
+        if (inv_total(inv, signed_gnomeball) <= 0) {
+            anim(human_pickupfloor, 0);
+            sound_synth(pick,0,0);
+            inv_add(inv, signed_gnomeball, 1);
+            ~mesbox("You've found Hobbles lost Signed Gnomeball.|You should get this back to him.");
+
+            return;
+        }
+
+        ~chatplayer("<p,neutral>I should get this ball back to Hobbles before more Wizards show up.");
+    case ^helphobbles_complete :
+        ~chatplayer("<p,happy>I remember this fern...|...Good times.");
+        mes("You reminisce about the time you battled the Dark Wizard and helped Hobbles find his Signed Gnomeball.");
+}
+
+
+
+[label,helphobbles_completion]
+~chatplayer("<p,happy>I had to fight a Dark Wizard but I retrieved your signed ball.");
+~chatnpc("<p,happy>Oh happy day!.");
+~mesbox("You hand Hobbles the signed ball.");
+inv_del(inv, signed_gnomeball,1);
+anim(human_throw_gnomeball, 0);
+queue(helphobbles_quest_complete, 0);
+
+[queue,helphobbles_quest_complete]
+%helphobbles_progress = ^helphobbles_complete;
+session_log(^log_adventure, "Quest complete: Helping Hobbles");
+~send_quest_complete(questlist:helphobbles, signed_gnomeball, 250, ^helphobbles_questpoints, "You have completed Helping Hobbles!");
+
+

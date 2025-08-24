@@ -6,7 +6,7 @@ x=5
 y=20
 width=168
 height=229
-scroll=875
+scroll=911
 
 [com_1]
 layer=com_0
@@ -894,3 +894,28 @@ y=228
 width=36
 height=36
 graphic=miscgraphics,3
+
+[com_99]
+layer=com_0
+type=text
+x=10
+y=865
+width=116
+height=14
+font=b12
+shadowed=yes
+text=CUSTOM QUESTS:
+colour=0xF99B15
+
+[helphobbles]
+layer=com_0
+type=text
+x=10
+y=882
+buttontype=normal
+width=89
+height=14
+font=p12
+shadowed=yes
+text=Helping Hobbles
+colour=0xFF0000
