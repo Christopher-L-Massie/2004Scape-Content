@@ -1,0 +1,18 @@
+[hobbles]
+vislevel=hide
+name=Hobbles
+desc=A vagrant crippled gnome baller.
+walkanim=midget_walk
+readyanim=midget_ready
+vislevel=hide
+op1=Talk-to
+recol1s=9513
+recol1d=25699
+model1=model_2914_npc
+model2=model_2905_npc
+model3=model_2924_npc
+head1=model_21_npc_head
+wanderrange=200
+maxrange=100
+param=death_anim,midget_death
+param=death_sound,gnome_death
