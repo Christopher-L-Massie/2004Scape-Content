@@ -158,6 +158,9 @@ if (p_finduid(uid) = true) {
                     queue(itwatchtower_quest_complete, 0);
                 case 50 : queue(waterfall_quest_complete, 0);
                 case 51 : queue(ball_quest_complete, 0);
+                //Extra Quest
+                case 52 : queue(helphobbles_quest_complete, 0);
+                //End Extra Quest
                 case default : mes("Quest not found.");
             }
         } else if ($choice3 = 1) {
@@ -266,6 +269,9 @@ if (p_finduid(uid) = true) {
                     %waterfall_golrie_and_puzzle = 0;
                     %waterfall_progress = 0;
                 case 51 : %ball_progress = 0;
+                //Extra Quest
+                case 52 : %helphobbles_progress = 0;
+                //End Extra Quest
                 case default : mes("Quest not found.");
             }
             ~update_questlist;
@@ -369,6 +375,10 @@ if ($arrav_choice = 0) {
     %blackarmgang_progress = 0;
 }
 
+//Extra Quest
+queue(helphobbles_quest_complete, 0);
+//End Extra Quest
+
 ~update_questlist;
 mes("All quests have been completed.");
 return;
@@ -461,6 +471,9 @@ return;
 %waterfall_golrie_and_puzzle = 0;
 %waterfall_progress = 0;
 %ball_progress = 0;
+//Extra Quest
+%helphobbles_progress = 0;
+//End Extra Quest
 ~update_questlist;
 mes("All quests have been reset.");
 return;
