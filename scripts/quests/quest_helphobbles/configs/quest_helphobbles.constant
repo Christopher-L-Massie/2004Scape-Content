@@ -1,0 +1,6 @@
+^helphobbles_not_started = 0
+^helphobbles_started = 50
+^helphobbles_wizard_killed = 75
+
+^helphobbles_wizard_spawn_coord = 0_50_52_36_48
+^helphobbles_wizard_walk_coord = 0_50_52_40_48
