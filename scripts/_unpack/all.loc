@@ -15172,3 +15172,11 @@ recol1s=2114
 recol1d=11627
 recol2s=7331
 recol2d=11591
+
+[suspicious_gnomeball_fern]
+name=Suspicious Fern
+desc=This could easily hide a gnomeball.
+model=model_loc_1298
+blockwalk=yes
+mapscene=9
+op1=Search

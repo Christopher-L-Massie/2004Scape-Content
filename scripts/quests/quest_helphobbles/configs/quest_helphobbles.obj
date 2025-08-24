@@ -1,0 +1,43 @@
+[signed_gnomeball]
+name=Signed Gnomeball
+desc=Signed by many great Gnomeball players.
+model=model_2644_obj
+recol1s=18822
+recol1d=31393
+2dzoom=790
+2dyan=2020
+2dxan=108
+weight=500g
+tradeable=no
+
+[golden_gnomeball]
+name=Golden Gnomeball
+desc=A functional Golden Gnomeball, how is this so light?
+model=model_2644_obj
+recol1s=18822
+recol1d=31393
+2dzoom=790
+2dyan=2020
+2dxan=108
+weight=500g
+iop2=Hold
+wearpos=righthand
+manwear=model_528_obj_wear,0
+womanwear=model_528_obj_wear,6
+tradeable=yes
+
+[silver_gnomeball]
+name=Silver Gnomeball
+desc=A functional Silver Gnomeball, how is this so light?
+model=model_2644_obj
+recol1s=18822
+recol1d=22198
+2dzoom=790
+2dyan=2020
+2dxan=108
+weight=500g
+iop2=Hold
+wearpos=righthand
+manwear=model_528_obj_wear,0
+womanwear=model_528_obj_wear,6
+tradeable=yes
